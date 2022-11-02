@@ -1,0 +1,56 @@
+---
+name: CI build
+  
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      MIX_ENV: test
+
+    strategy:
+      matrix:
+        elixir: ['1.13', '1.14']
+        otp: ['24', '25']
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup elixir
+      id: setup-elixir
+      uses: erlef/setup-beam@v1
+      with:
+        otp-version: ${{ matrix.otp }}
+        elixir-version: ${{ matrix.elixir }}
+        install-rebar: true
+        install-hex: true
+
+    - name: Get deps cache
+      uses: actions/cache@v2
+      with:
+        path: deps/
+        key: deps-${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+
+    - name: Get build cache
+      uses: actions/cache@v2
+      with:
+        path: _build/test/
+        key: build-${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+
+    - name: Install dependencies
+      run: |
+        mix deps.get
+        mix compile
+
+    - name: Run tests
+      run: mix coveralls.github
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
