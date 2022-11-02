@@ -1,6 +1,6 @@
 ---
 name: CI build
-  
+
 on:
   push:
     branches:
@@ -19,6 +19,14 @@ jobs:
       matrix:
         elixir: ['1.13', '1.14']
         otp: ['24', '25']
+
+    services:
+      db:
+        image: postgres:15-alpine
+        ports: ['5432:5432']
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
     - name: Checkout repository
@@ -49,6 +57,7 @@ jobs:
       run: |
         mix deps.get
         mix compile
+        mix ecto.migrate
 
     - name: Run tests
       run: mix coveralls.github
