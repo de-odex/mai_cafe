@@ -41,17 +41,13 @@ jobs:
         install-rebar: true
         install-hex: true
 
-    - name: Get deps cache
-      uses: actions/cache@v2
+    - name: Get cache
+      uses: actions/cache@v3
       with:
-        path: deps/
-        key: deps-${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
-
-    - name: Get build cache
-      uses: actions/cache@v2
-      with:
-        path: _build/test/
-        key: build-${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+        path: |
+          deps/
+          _build/
+        key: ${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
 
     - name: Install dependencies
       run: |
