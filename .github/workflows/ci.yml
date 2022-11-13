@@ -9,7 +9,83 @@ on:
   workflow_dispatch:
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        elixir: ['1.14']
+        otp: ['25']
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup elixir
+      id: setup-elixir
+      uses: erlef/setup-beam@v1
+      with:
+        otp-version: ${{ matrix.otp }}
+        elixir-version: ${{ matrix.elixir }}
+        install-rebar: true
+        install-hex: true
+
+    - name: Get cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          deps/
+          _build/
+        key: ${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+
+    - name: Install dependencies
+      run: |
+        mix deps.get
+        mix compile
+
+
+
+  lint:
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        elixir: ['1.14']
+        otp: ['25']
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup elixir
+      id: setup-elixir
+      uses: erlef/setup-beam@v1
+      with:
+        otp-version: ${{ matrix.otp }}
+        elixir-version: ${{ matrix.elixir }}
+        install-rebar: true
+        install-hex: true
+
+    - name: Get cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          deps/
+          _build/
+        key: ${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+
+    - name: Run lints
+      run: mix coveralls.github
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+
   test:
+    needs: build
+
     runs-on: ubuntu-latest
 
     env:
@@ -49,17 +125,13 @@ jobs:
           _build/
         key: ${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
 
-    - name: Install dependencies
-      run: |
-        mix deps.get
-        mix compile
-
     - name: Setup environment
       run: |
         mix ecto.create
         mix ecto.migrate
 
-    - name: Run tests
+    - name: Run tests and coverage
       run: mix coveralls.github
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
