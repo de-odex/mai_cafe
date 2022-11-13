@@ -12,6 +12,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      MIX_ENV: test
+
     strategy:
       matrix:
         elixir: ['1.14']
@@ -50,6 +53,9 @@ jobs:
     needs: build
 
     runs-on: ubuntu-latest
+
+    env:
+      MIX_ENV: test
 
     strategy:
       matrix:
