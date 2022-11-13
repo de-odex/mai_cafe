@@ -20,9 +20,6 @@ config :mai_cafe, MaiCafeWeb.Endpoint,
   secret_key_base: "mmGZes35hFqzu6nzYisJgX0ZjSWXRGmFe3RYIiJF89l+q4S+AeTLhNy11rNG3hnB",
   server: false
 
-# In test we don't send emails.
-config :mai_cafe, MaiCafe.Mailer, adapter: Swoosh.Adapters.Test
-
 # Print only warnings and errors during test
 config :logger, level: :warn
 
