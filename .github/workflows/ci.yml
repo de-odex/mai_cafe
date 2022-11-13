@@ -42,6 +42,7 @@ jobs:
       run: |
         mix deps.get
         mix compile
+        mix dialyzer --plt
 
 
 
@@ -76,10 +77,12 @@ jobs:
           _build/
         key: ${{ runner.os }}-${{ steps.setup-elixir.outputs.otp-version }}-${{ steps.setup-elixir.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
 
-    - name: Run lints
-      run: mix coveralls.github
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - run: mix format --check-formatted
+    - uses: red-shirts/reviewdog-action-credo@v1
+      with:
+        github_token: ${{ secrets.github_token }}
+    - run: mix dialyzer --no-check --ignore-exit-status --format github
+
 
 
 
