@@ -1,19 +1,30 @@
 # MaiCafe
 
-To start your Phoenix server:
+[![CI build](https://github.com/de-odex/mai_cafe/actions/workflows/ci.yml/badge.svg)](https://github.com/de-odex/mai_cafe/actions/workflows/ci.yml) [![Coverage Status](https://coveralls.io/repos/github/de-odex/mai_cafe/badge.svg?branch=master)](https://coveralls.io/github/de-odex/mai_cafe?branch=master)
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+An achievement tracker website for the game maimai.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+## Requirements
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+- Elixir 1.12 with Erlang/OTP 22+
+  - Ideally, Elixir 1.14 with OTP 24+
+- PostgreSQL 8.4+ (postgrex requirement)
 
-## Learn more
+## Development
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+Postgres must be running beforehand.
+
+```
+# install dependencies
+mix deps.get
+
+# setup (create and migrate) database
+mix ecto.setup
+
+# run server like a regular long-running binary
+mix phx.server
+# or within an interactive environment
+iex -S mix phx.server
+```
+The server will run in [`localhost:4000`](http://localhost:4000).
+
