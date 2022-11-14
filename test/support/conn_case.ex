@@ -19,15 +19,15 @@ defmodule MaiCafeWeb.ConnCase do
 
   using do
     quote do
+      # The default endpoint for testing
+      @endpoint MaiCafeWeb.Endpoint
+
+      use MaiCafeWeb, :verified_routes
+
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
       import MaiCafeWeb.ConnCase
-
-      alias MaiCafeWeb.Router.Helpers, as: Routes
-
-      # The default endpoint for testing
-      @endpoint MaiCafeWeb.Endpoint
     end
   end
 

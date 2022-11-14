@@ -6,8 +6,7 @@ An achievement tracker website for the game maimai.
 
 ## Requirements
 
-- Elixir 1.12 with Erlang/OTP 22+
-  - Ideally, Elixir 1.14 with OTP 24+
+- Elixir 1.14 with Erlang/OTP 23+
 - PostgreSQL 8.4+ (postgrex requirement)
 
 ## Development

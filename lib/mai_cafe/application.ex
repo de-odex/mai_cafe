@@ -8,10 +8,10 @@ defmodule MaiCafe.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Start the Ecto repository
-      MaiCafe.Repo,
       # Start the Telemetry supervisor
       MaiCafeWeb.Telemetry,
+      # Start the Ecto repository
+      MaiCafe.Repo,
       # Start the PubSub system
       {Phoenix.PubSub, name: MaiCafe.PubSub},
       # Start the Endpoint (http/https)

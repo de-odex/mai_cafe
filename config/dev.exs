@@ -25,8 +25,8 @@ config :mai_cafe, MaiCafeWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "Goi+U2VpgdqCm8JuveduU9bbsOmK72LiAP1zdXhyKZ64RKHcnTpMx34L8T+Ndwgf",
   watchers: [
-    # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
   ]
 
 # ## SSL Support
@@ -63,6 +63,9 @@ config :mai_cafe, MaiCafeWeb.Endpoint,
       ~r"lib/mai_cafe_web/templates/.*(eex)$"
     ]
   ]
+
+# Enable dev routes for dashboard and mailbox
+config :mai_cafe, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
