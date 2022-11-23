@@ -24,10 +24,7 @@ config :mai_cafe, MaiCafeWeb.Endpoint,
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "Goi+U2VpgdqCm8JuveduU9bbsOmK72LiAP1zdXhyKZ64RKHcnTpMx34L8T+Ndwgf",
-  watchers: [
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
-  ]
+  watchers: []
 
 # ## SSL Support
 #
@@ -37,7 +34,6 @@ config :mai_cafe, MaiCafeWeb.Endpoint,
 #
 #     mix phx.gen.cert
 #
-# Note that this task requires Erlang/OTP 20 or later.
 # Run `mix help phx.gen.cert` for more information.
 #
 # The `http:` config above can be replaced with:
@@ -52,17 +48,6 @@ config :mai_cafe, MaiCafeWeb.Endpoint,
 # If desired, both `http:` and `https:` keys can be
 # configured to run both http and https servers on
 # different ports.
-
-# Watch static and templates for browser reloading.
-config :mai_cafe, MaiCafeWeb.Endpoint,
-  live_reload: [
-    patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
-      ~r"priv/gettext/.*(po)$",
-      ~r"lib/mai_cafe_web/(live|views)/.*(ex)$",
-      ~r"lib/mai_cafe_web/templates/.*(eex)$"
-    ]
-  ]
 
 # Enable dev routes for dashboard and mailbox
 config :mai_cafe, dev_routes: true
